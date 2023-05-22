@@ -7,7 +7,7 @@ const int TMP36pin = A2;
 const int LEDpinGas = A1;
 const int MQ2pin = A0;
 
-LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+LiquidCrystal lcd(12, 11, 4, 5, 6, 7);
 
 void setup(){
 	Serial.begin(9600);
@@ -15,16 +15,26 @@ void setup(){
 	pinMode(MQ2pin, INPUT);
 	pinMode(LEDpinGas, OUTPUT);
 	pinMode(LEDpinTemp, OUTPUT);
+
+	lcd.begin(16, 2); // Inicializar la interfac con la pantalla LCD especificando que hay 16 columnas y 2 filas
+	lcd.print("LED screen on");
+	delay(500);
+	lcd.clear();
 }
 
 void loop(){
 	// Controlar sensor de gas 
-	float sensorValue, MQ2pin;
-	sensorValue = analogRead(MQ2pin); 
-	Serial.print("\nLectura sensor de gases: ");
-	Serial.print(sensorValue);
+	float gasSensorValue, MQ2pin;
 
-	if(sensorValue >= 470){
+	gasSensorValue = analogRead(MQ2pin); 
+	Serial.print("\nLectura sensor de gases: ");
+	Serial.print(gasSensorValue);
+
+	lcd.setCursor(0, 0);
+	lcd.print("gas: ");
+	lcd.print(gasSensorValue);
+
+	if(gasSensorValue >= 470){
 		digitalWrite(LEDpinGas, HIGH);
 		Serial.print(" - Humo detectado. El sensor da un valor mayor a 470. LED encendido.");				
 	}else{
@@ -39,6 +49,10 @@ void loop(){
 	rawValue = analogRead(TMP36pin);
 	voltaje = (rawValue/1023.0) * 5000; // Obtener voltaje en milivolteos del sensor TMP36
 	tempC = (voltaje-498) * 0.1; // Obtener temperatura en grados centígrados
+
+	lcd.setCursor(0, 1);
+	lcd.print("temp: ");
+	lcd.print(tempC);
 
 	Serial.print("\nLectura sensor de temperatura en grados celsius: ");
 	Serial.print(tempC, 1);

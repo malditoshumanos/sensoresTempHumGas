@@ -1,0 +1,1 @@
+Entrega Actividad - Sensores para la Medición de Calidad de Aire, Introducción a la Ing. Electrónica 2023-1. En Informe_Sim.pdf se encuentran la realización de las simulaciones realizadas de los circuitos propuestos.
